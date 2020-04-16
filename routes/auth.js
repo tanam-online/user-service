@@ -1,7 +1,7 @@
 var express = require('express')
 var bcrypt = require('bcrypt')
 var router = express.Router()
-var User = require('../models/User')
+var User = require('../controllers/User')
 
 /* Check if API is live. */
 router.get('/', (req, res) => {
