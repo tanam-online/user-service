@@ -7,9 +7,16 @@ exports.getAll = async () => {
   return result
 }
 
-exports.getOne = async (id) => {
+exports.getById = async (id) => {
   const client = await pool.connect()
   const result = await client.query('SELECT * FROM pengguna WHERE id = $1;', [id])
+  client.release()
+  return result
+}
+
+exports.getByEmail = async (email) => {
+  const client = await pool.connect()
+  const result = await client.query('SELECT * FROM pengguna WHERE email = $1;', [email])
   client.release()
   return result
 }

@@ -9,7 +9,10 @@ var User = require('../models/User')
 router.get('/', async (req, res) => {
   try {
     const result = await User.getAll()
-    const results = { data: (result) ? result.rows : null }
+    const results = {
+      status: 'Successfully get all users',
+      data: (result) ? result.rows : null
+    }
     res.send(results)
   } catch (err) {
     console.error(err)
@@ -25,8 +28,11 @@ router.get('/:id', async (req, res) => {
     if (!req.params.id) {
       return res.status(400).send({ status: 400, message: 'No id provided' })
     }
-    const result = await User.getOne(req.params.id)
-    const results = { data: (result) ? result.rows : null }
+    const result = await User.getById(req.params.id)
+    const results = {
+      status: 'Successfully get user',
+      data: (result) ? result.rows : null
+    }
     res.send(results)
   } catch (err) {
     console.error(err)
@@ -100,7 +106,10 @@ router.delete('/:id', async (req, res) => {
       return res.status(400).send({ status: 400, message: 'No id provided' })
     }
     const result = await User.delete(req.params.id)
-    const results = { data: (result) ? result.rows : null }
+    const results = {
+      status: 'User deleted successfully',
+      data: (result) ? result.rows : null
+    }
     res.send(results)
   } catch (err) {
     console.error(err)
