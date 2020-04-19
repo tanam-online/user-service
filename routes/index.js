@@ -5,15 +5,15 @@ var cryptr = new Cryptr(process.env.SECRET_KEY)
 var bcrypt = require('bcrypt')
 var User = require('../models/User')
 
-/* 
- * Check if API is live. 
+/*
+ * Check if API is live.
  */
 router.get('/', (req, res) => {
   res.send('You are connected')
 })
 
-/* 
- * Login endpoint. 
+/*
+ * Login endpoint.
  */
 router.post('/login', async (req, res) => {
   try {
@@ -31,8 +31,7 @@ router.post('/login', async (req, res) => {
         data: (result) ? result.rows : null
       }
       res.send(results)
-    }
-    else {
+    } else {
       return res.status(400).send({ status: 400, message: 'Wrong password' })
     }
   } catch (err) {
@@ -41,8 +40,8 @@ router.post('/login', async (req, res) => {
   }
 })
 
-/* 
- * Generate link for password recovery. 
+/*
+ * Generate link for password recovery.
  */
 router.post('/recover', async (req, res) => {
   // Sending email to user containing link
@@ -70,8 +69,8 @@ router.post('/recover', async (req, res) => {
   }
 })
 
-/* 
- * Change password endpoint. 
+/*
+ * Change password endpoint.
  */
 router.post('/change-password', async (req, res) => {
   try {
