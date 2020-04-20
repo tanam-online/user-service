@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 var Cryptr = require('cryptr')
 var cryptr = new Cryptr(process.env.SECRET_KEY)
 var bcrypt = require('bcrypt')
@@ -44,23 +46,32 @@ router.post('/login', async (req, res) => {
  * Generate link for password recovery.
  */
 router.post('/recover', async (req, res) => {
-  // Sending email to user containing link
-  // Link is used to change password but with Postman
-  // Link is in form of hashed email
   try {
     if (!req.body.email) {
       return res.status(400).send({ status: 400, message: 'No email provided' })
     }
-    const result = await User.getByEmail(req.body.email)
-    const user = (result) ? result.rows[0] : null
+    const response = await User.getByEmail(req.body.email)
+    const user = (response) ? response.rows[0] : null
     if (!user) {
       return res.status(400).send({ status: 400, message: 'User not found' })
     }
     const id = cryptr.encrypt(user.id)
-    const link = `http://tanam.online/change-password/${id}`
+    const msg = {
+      to: user.email,
+      from: 'cs@tanam.online',
+      fromname: 'Customer Service Tanam',
+      subject: 'Reset Kata Sandi Anda',
+      html: `<p>Halo, ${user.nama}! Ini adalah email untuk mengganti password Anda.</p>
+      <p>Klik tautan berikut: 
+        <a href="http://tanam.online/change-password/${id}" target="_blank">
+          Ganti Password
+        </a>
+      </p>`
+    }
+    await sgMail.send(msg)
     const results = {
-      status: 'Link generated',
-      data: link
+      status: `Recovery email sent to ${user.email}`,
+      data: id
     }
     res.send(results)
   } catch (err) {
@@ -72,12 +83,12 @@ router.post('/recover', async (req, res) => {
 /*
  * Change password endpoint.
  */
-router.post('/change-password', async (req, res) => {
+router.post('/change-password/:id', async (req, res) => {
   try {
-    if (!req.body.id || !req.body.password) {
+    if (!req.params.id || !req.body.password) {
       return res.status(400).send({ status: 400, message: 'No id or password provided' })
     }
-    const id = cryptr.decrypt(req.body.id)
+    const id = cryptr.decrypt(req.params.id)
     const resultUser = await User.getById(id)
     const user = (resultUser) ? resultUser.rows[0] : null
     if (!user) {

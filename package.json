@@ -9,6 +9,7 @@
     "lint-fix": "eslint --fix ."
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.0.1",
     "bcrypt": "^4.0.1",
     "cookie-parser": "~1.4.4",
     "cryptr": "^6.0.2",
