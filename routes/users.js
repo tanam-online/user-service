@@ -78,11 +78,14 @@ router.put('/:id', async (req, res) => {
     if (!req.params.id) {
       return res.status(400).send({ status: 400, message: 'No id provided' })
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const userResponse = await User.getById(req.params.id)
+    const user = userResponse ? userResponse.rows[0] : null
+    // const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const payload = [
-      req.body.nama,
-      hashedPassword,
-      req.body.no_telepon,
+      req.body.nama ? req.body.nama : user.nama,
+      // hashedPassword,
+      user.password,
+      req.body.no_telepon ? req.body.no_telepon : user.no_telepon,
       req.params.id
     ]
     const result = await User.update(payload)
