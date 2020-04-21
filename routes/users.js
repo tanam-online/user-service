@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt')
 var User = require('../models/User')
 
 /*
- * GET all previously sent messages.
+ * GET all users.
  */
 router.get('/', async (req, res) => {
   try {

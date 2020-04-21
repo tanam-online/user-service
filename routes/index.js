@@ -58,8 +58,10 @@ router.post('/recover', async (req, res) => {
     const id = cryptr.encrypt(user.id)
     const msg = {
       to: user.email,
-      from: 'cs@tanam.online',
-      fromname: 'Customer Service Tanam',
+      from: {
+        email: 'cs@tanam.online',
+        name: 'Customer Service Tanam'
+      },
       subject: 'Reset Kata Sandi Anda',
       html: `<p>Halo, ${user.nama}! Ini adalah email untuk mengganti password Anda.</p>
       <p>Klik tautan berikut: 
