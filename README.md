@@ -18,6 +18,7 @@ This project was bootstrapped with [Express Generator](https://expressjs.com/en/
 [POST] '/users' = Create new user
 [PUT] '/users/:id' = Edit user by id
 [DELETE] '/users/:id' = Delete user by id
+*Make sure you have valid or real email for periodic report email purposes (in report-service)
 ```
 
 ## Available Scripts
