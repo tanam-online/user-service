@@ -1,5 +1,7 @@
 # Tanam User Service
 
+API is documented at Swagger [app.swaggerhub.com/apis-docs/isfanr/Tanam](https://app.swaggerhub.com/apis-docs/isfanr/Tanam/1.0.0).<br />
+
 API is accessible on [api-user-tanam.herokuapp.com](https://api-user-tanam.herokuapp.com).<br />
 
 This project was bootstrapped with [Express Generator](https://expressjs.com/en/starter/generator.html).
@@ -8,7 +10,14 @@ This project was bootstrapped with [Express Generator](https://expressjs.com/en/
 
 ``` bash
 [GET] '/' = Check if API is live
-TBD...
+[POST] '/login' = For login purpose
+[POST] '/recover' = Generate link for password recovery
+[POST] '/change-password/:encId' = Change password endpoint
+[GET] '/users' = Get all users
+[GET] '/users/:id' = Get user by id
+[POST] '/users' = Create new user
+[PUT] '/users/:id' = Edit user by id
+[DELETE] '/users/:id' = Delete user by id
 ```
 
 ## Available Scripts
