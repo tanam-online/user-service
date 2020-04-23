@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(400).send({ status: 400, message: 'Wrong email' })
     }
-    if (bcrypt.compare(req.body.password, user.password)) {
+    if (await bcrypt.compare(req.body.password, user.password)) {
       const results = {
         status: 'Login success',
         data: (result) ? result.rows : null
